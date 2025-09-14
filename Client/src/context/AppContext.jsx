@@ -3,7 +3,6 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axios.js";
 
-
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
@@ -50,21 +49,19 @@ export const AppProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     setIsOwner(false);
-    api.defaults.headers.common["Authorization"] = "";
     toast.success("You have been logged out");
   };
 
-  // 🔹 UseEffect to retrieve token from localStorage
+  // 🔹 On mount: get token + cars
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
     fetchCars();
   }, []);
 
-  // 🔹 UseEffect to fetch user data when token is available
+  // 🔹 When token changes: fetch user
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       fetchUser();
     }
   }, [token]);
