@@ -9,15 +9,13 @@ import bookingRouter from "./routes/bookingRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Middleware
+// Middleware
 app.use(
-  cors({
-    origin: [
-      "http://localhost:5173", // local dev
-      "https://car-rental-cli.onrender.com", // deployed frontend
-    ],
-    credentials: true,
-  })
+       cors({
+              origin:
+                     "http://localhost:5173", // local dev
+              credentials: true,
+       })
 );
 
 app.use(express.json());
@@ -31,7 +29,7 @@ app.use("/api/bookings", bookingRouter);
 // Connect DB + Start Server
 connectDB();
 
-const PORT = process.env.PORT || 5000; // 👈 5000 rakho, 3000 React ke sath clash karta hai
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 export default app;
