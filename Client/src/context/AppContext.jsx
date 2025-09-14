@@ -55,14 +55,42 @@ export const AppProvider = ({ children }) => {
   // 🔹 On mount: get token + cars
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setToken(token);
-    fetchCars();
-  }, []);
-
-  // 🔹 When token changes: fetch user
-  useEffect(() => {
     if (token) {
-      fetchUser();
+      // Set the token state
+      setToken(token);
+      
+      // Set the authorization header for all subsequent API calls
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      
+      // Fetch both user data and cars
+      const initializeApp = async () => {
+        try {
+          const [userResponse, carsResponse] = await Promise.all([
+            api.get("/api/user/data"),
+            api.get("/api/user/cars")
+          ]);
+
+          if (userResponse.data.success) {
+            setUser(userResponse.data.user);
+            setIsOwner(userResponse.data.user.role === "owner");
+          }
+
+          if (carsResponse.data.success) {
+            setCars(carsResponse.data.cars);
+          }
+        } catch (error) {
+          console.error('Initialization error:', error);
+          if (error.response?.status === 401) {
+            // Token expired or invalid
+            localStorage.removeItem("token");
+            setToken(null);
+            setUser(null);
+            setIsOwner(false);
+          }
+        }
+      };
+
+      initializeApp();
     }
   }, [token]);
 
