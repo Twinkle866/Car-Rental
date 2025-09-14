@@ -19,7 +19,7 @@ export const AppProvider = ({ children }) => {
   // 🔹 Function to check if user is logged in
   const fetchUser = async () => {
     try {
-      const { data } = await api.get(`${VITE_API_URL}/api/user/data`);
+      const { data } = await api.get(`/api/user/data`);
       if (data.success) {
         setUser(data.user);
         setIsOwner(data.user.role === "owner");
@@ -34,7 +34,7 @@ export const AppProvider = ({ children }) => {
   // 🔹 Function to fetch all cars
   const fetchCars = async () => {
     try {
-      const { data } = await api.get(`${VITE_API_URL}/api/user/cars`);
+      const { data } = await api.get(`/api/user/cars`);
       data.success
         ? setCars(data.cars)
         : toast.error(data.message || "Failed to fetch cars");
