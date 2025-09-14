@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // local dev
-      "https://car-rental-client.onrender.com", // deployed frontend
+      "https://car-rental-cli.onrender.com", // deployed frontend
     ],
     credentials: true,
   })
