@@ -12,8 +12,12 @@ const app = express();
 
 // Middleware
 app.use(cors({
-       origin: "http://localhost:5173", // set to your frontend URL
-       credentials: true
+       origin: [
+           "http://localhost:5173",
+           "https://car-rental-cli.onrender.com"
+       ], // allow local and deployed frontend
+       credentials: true,
+       methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 app.use(express.json());
 
